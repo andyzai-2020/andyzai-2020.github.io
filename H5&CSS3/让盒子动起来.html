@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        ul{
+            width: 300px;
+            height: 300px;
+            margin: 300px auto;
+            transform-style: preserve-3d;
+            transform: rotateX(5deg) rotateY(35deg); 
+            transition:all 2s linear; 
+        }
+        ul li{
+            list-style: none;
+            width: 300px;
+            height: 300px;
+            /* border: 1px solid #000; */
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-align: center;
+            line-height: 300px;
+            color: white;
+            font-size: 40px;
+            font-family: "华文彩云";
+        }
+        ul li:nth-of-type(1){
+            background: red;
+            transform: rotateY(90deg) translateZ(150px);
+        }
+        ul li:nth-of-type(2){
+            background: yellow;
+            transform: rotateY(270deg) translateZ(150px);
+        }
+        ul li:nth-of-type(3){
+            background: green;
+            transform: rotateX(270deg) translateZ(150px);
+        }
+        ul li:nth-of-type(4){
+            background: purple;
+            transform: rotateX(90deg) translateZ(150px);
+        }
+        ul li:nth-of-type(5){
+            background: peru;
+            transform:translateZ(-150px) rotateY(180deg);
+        }
+        ul li:nth-of-type(6){
+            background: blue;
+            transform:translateZ(150px);
+        }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+    </ul>
+</body>
+<script>
+    var x =5 , y=35;
+    var ul = document.querySelector("ul");
+    document.onkeypress = function(e){
+        switch (e.key) {
+            case "w":
+                x++;
+                ul.style['transform'] = "rotateX("+ x +"deg) rotateY("+ y +"deg)";
+                break;
+            case "s":
+                x--;
+                ul.style['transform'] = "rotateX("+ x +"deg) rotateY("+ y +"deg)";
+                break;
+            case "a":
+                y--;
+                ul.style['transform'] = "rotateX("+ x +"deg) rotateY("+ y +"deg)";
+                break;
+            case "d":
+                y++;
+                ul.style['transform'] = "rotateX("+ x +"deg) rotateY("+ y +"deg)";
+                break;
+        
+        }
+    }
+</script>
+</html>

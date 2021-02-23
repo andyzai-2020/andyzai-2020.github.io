@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            padding: 0;
+            margin: 0;
+        }
+        ul{
+            padding: 0;
+            margin: 200px auto;
+            width: 300px;
+            height: 50px;
+        }
+        ul li{
+            margin-top: 1px;
+            list-style: none;
+            width: 80px;
+            height: 50px;
+            box-sizing: border-box;
+            position: relative;
+            transition: all 1s;
+            transform-style: preserve-3d;
+            perspective: 400px;
+        }
+        ul li:hover{
+            transform: rotateY(-90deg);
+            perspective: none;
+        }
+        ul li::before{
+            position: absolute;
+            top: 0;
+            right: 0;
+            content: '你好';
+            text-align: center;
+            line-height: 50px;
+            color: white;
+            background-color: sandybrown;
+            display: block;
+            width: 80px;
+            height: 50px;
+            box-sizing: border-box;
+            transition: all 0.5s linear;
+            transform: rotateY(90deg) translateZ(30px);
+        }
+       
+        ul li::after{
+            position: absolute;
+            top: 0;
+            right: 0;
+            content: 'Hello';
+            text-align: center;
+            line-height: 50px;
+            color: white;
+            background-color:indianred;
+            display: block;
+            width: 80px;
+            height: 50px;
+            box-sizing: border-box;
+            transition: all 0.5s linear;
+            transform: translateZ(40px);
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</body>
+
+</html>

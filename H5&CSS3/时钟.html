@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时钟</title>
+    <style>
+	    *{
+            padding: 0;
+            margin: 0;
+        }
+        ol li,ul li{
+            list-style: none;
+            position: absolute;
+        }
+        /* 利用CSS3绘制时钟效果（不需要JS ） */
+        .layout{
+            /* transition: all 3s linear; */
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            animation: bg 10s linear infinite;
+        }
+        ul{
+            position: relative;
+            width: 400px;
+            height: 400px;
+            border: 2px solid rgb(45, 228, 222);
+            border-radius: 50%;
+            box-sizing: border-box;
+        }
+        ul li{
+            width: 4px;
+            height: 400px;
+            background: rgb(45, 228, 222);
+            position: absolute;
+            left: 50%;
+            top: 0;
+            margin-top: -2px;
+            margin-left: -4px;
+            transform-origin: center;
+        }
+        /* 顶部时间 */
+        ul li:nth-of-type(2){
+            transform: rotateZ(30deg);
+        }
+        ul li:nth-of-type(3){
+            transform: rotateZ(60deg);
+        }
+        ul li:nth-of-type(4){
+            transform: rotateZ(90deg);
+        }
+        ul li:nth-of-type(5){
+            transform: rotateZ(120deg);
+        }
+        ul li:nth-of-type(6){
+            transform: rotateZ(150deg);
+        }
+
+        .layout .out{
+            z-index: 0;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            /* background: #fff; */
+            position: absolute;
+            left: 50px;
+            top: 50px;
+            animation: bg 10s linear infinite;
+        }
+        .layout .in{
+            z-index: 10;
+            width: 20px;
+            height: 20px;
+            background: rgb(255,85,0);
+            border-radius: 50%;
+            position: absolute;
+            top: 200px;
+            left: 200px;
+            margin-left: -12px;
+            margin-top: -12px;
+        }
+        /* 指针 */
+        ol {
+            width: 1px;
+            height: 1px;
+            position: absolute;
+            top: 200px;
+            left: 200px;
+            margin-left: -12px;
+            margin-top: -12px;
+        }
+         /* 时针 */
+         ol li:nth-of-type(1){
+            width: 60px;
+            height: 12px;
+            background: #000;
+            border-radius:6px;
+            position: absolute;
+            top: 4px;
+            left: 10px;
+            transition: all 2s;
+            transform: rotateZ(-90deg);
+            transform-origin: left center;
+            animation: run 720s linear infinite;
+        }
+         /* 分针 */
+         ol li:nth-of-type(2){
+            width: 90px;
+            height: 8px;
+            background: rgb(135,206,235);
+            border-radius:4px;
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            transition: all 2s;
+            transform: rotateZ(-90deg);
+            transform-origin: left center;
+            animation: run 60s linear infinite;
+        }
+        /* 秒针 */
+        ol li:nth-of-type(3){
+            width: 130px;
+            height: 4px;
+            background: rgb(255,85,0);
+            border-radius: 2px;
+            position: absolute;
+            top: 8px;
+            left: 10px;
+            transition: all 2s;
+            transform: rotateZ(334deg);
+            transform-origin: left center;
+            animation: run 1s linear infinite;
+        }
+        /* 指针跑一圈的动画 */
+        @keyframes run {
+            from {
+                transform: rotateZ(-90deg);
+            }
+            to{
+                transform: rotateZ(270deg);
+            }
+        }
+
+        @keyframes bg{
+            0%{
+                background: #4b1248;
+            }
+            75%{
+                background: #f0c27b;
+            }
+            100%{
+                background: #4b1248;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="layout">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+        <div class="in"></div>
+        <div class="out"></div>
+        <ol>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ol>
+
+
+    </div>
+    
+</body>
+</html>
