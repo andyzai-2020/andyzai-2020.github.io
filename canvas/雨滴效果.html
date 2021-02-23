@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>雨滴效果</title>
+    <style>
+        body {margin:0;}
+        canvas {display: block;background-color: #000;}
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+</body>
+</html>
+<script>
+    // 1.0 初始化画布
+    var canvas = document.getElementById("canvas");
+    var clientWidth = window.innerWidth;
+    var clientheight = window.innerHeight;
+    canvas.width = clientWidth;
+    canvas.height = clientheight;
+    var ctx = canvas.getContext("2d");
+    // 2.0 定义构造函数(处理雨滴的效果)
+    function Rain(){}
+    // 3.0 给原型添加方法
+    // .0  初始化函数
+    Rain.prototype.init = function(){
+        // .0 添加属性 记录每一滴雨的数据
+        // 矩形相关参数
+        this.x = this.random(0,clientWidth);
+        this.y = this.random(0,50);
+        this.w = this.random(4,8);
+        this.h = this.random(10,20);
+        this.vy = this.random(5,6);//矩形的步长
+        // 圆相关参数
+        this.r = 0;
+        // this.vr = this.random(1,2);
+        this.vr = 0.5;//圆的步长
+
+        // 记录雨滴掉到地面的距离
+        this.height = this.random(clientheight-200,clientheight-50);
+    }
+    // .0  指定范围的随机数函数
+    Rain.prototype.random = function(min,max){
+        return Math.floor(Math.random()*(max-min)+min);
+    }
+    // .0 绘制雨滴逻辑函数
+    Rain.prototype.draw = function(){
+        //.0 判断 雨滴没有掉到地面
+        if(this.y < this.height){
+            // .0 绘制矩形
+            // 参数 ： x,y,w,h,color
+            this.drawRect(this.x,this.y,this.w,this.h,"#0f0");
+        }else {
+            // .0 绘制圆形
+            // 参数：x,y,r,color
+            this.drawCircle(this.x +(this.w / 2),this.y+(this.h/2),this.r,"#0f0");
+        }
+    }
+    // .0 设置雨滴运动函数
+    Rain.prototype.move = function(){
+        //.0 判断 雨滴没有掉到地面
+        if(this.y < this.height){
+            // .0 计算矩形的坐标Y
+            this.y += this.vy;
+        }else {
+            // .0 判断雨滴掉到地面的逻辑
+            if(this.r < 50){
+                // .0 计算圆的半径
+                this.r += this.vr;
+            }else {
+                // .0 重置雨滴的数据
+                this.init();
+            }
+        }
+        // .0 不断绘制雨滴
+        this.draw();
+    }
+    // .0 绘制矩形的逻辑
+    Rain.prototype.drawRect = function(x,y,w,h,color){
+        // .0 矩形
+        ctx.beginPath();
+        ctx.fillStyle=color || "red";
+        ctx.fillRect(x,y,w,h);
+        ctx.closePath();
+    }   
+     // .0 绘制圆形的逻辑
+     Rain.prototype.drawCircle = function(x,y,r,color){
+        // .0 圆形
+        ctx.beginPath();
+        ctx.strokeStyle=color||"red";
+        ctx.arc(x,y,r,0,2 * Math.PI ,false);
+        ctx.stroke();
+        ctx.closePath();
+     }
+
+    var array = [];
+
+    for(var i = 0 ; i < 5 ; i ++ ){
+        var delayer = setTimeout(function(){
+            var rain = new Rain();
+            rain.init();
+            rain.draw();
+            array.push(rain);   
+        },200 * i)
+    }
+
+    var step = function(){
+        ctx.fillStyle = "rgba(0,0,0,0.05)";
+        ctx.fillRect(0,0,clientWidth,clientheight);
+        for(var i = 0 ; i < array.length ; i ++){
+            array[i].move();
+        }
+    }
+    var timer = setInterval(step,1000/60);
+
+
+
+
+</script>

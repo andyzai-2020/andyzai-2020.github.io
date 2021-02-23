@@ -479,6 +479,10 @@ mark,
   max-width: 100%;
   height: auto;
 }
+/* 自己写的 */
+.img-rounded{
+  border-radius: 10px;
+}
 
 .img-thumbnail {
   padding: 0.25rem;
