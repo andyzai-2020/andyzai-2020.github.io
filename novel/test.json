@@ -1,0 +1,22 @@
+{
+    "user": [
+        {
+            "id": 0,
+            "name": "Andy Mak"
+        },
+        {
+            "id": 1,
+            "name": "Andy Lau"
+        }
+    ],
+    "fav": [
+        {
+            "id": 0,
+            "fav": "music"
+        },
+        {
+            "id": 1,
+            "fav": "movie"
+        }
+    ]
+}
