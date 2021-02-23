@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            padding: 0;
+            margin: 0;
+            background-color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas>can not support</canvas>
+</body>
+<script>
+    // 画布初始化
+    var canvas = document.querySelector("canvas");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    var ctx = canvas.getContext("2d");
+    // 构造函数
+    function Ball() {}
+    // 构造函数初始化
+    Ball.prototype.init = function () {
+        // this.x=100,
+        // this.y=100,
+        this.x = this.randomSize(50, 300);
+        this.y = this.randomSize(50, 300);
+        this.r = this.randomSize(50, 100);
+        this.color = "red";
+        this.spendX = this.randomSize(3,8);
+        this.spendY = this.randomSize(3,8);
+    }
+    // 随机函数
+    Ball.prototype.randomSize = function (min, max) {
+        return Math.floor(Math.random() * (max - min) + min);
+    }
+    Ball.prototype.randomColor = function (min, max) {
+        var c = Math.floor(Math.random() * (max - min) + min).toString(16);
+        // c = c.toString(16);
+        if (c.length == 1) {
+            c = "0" + c;
+        }
+        return c;
+    }
+    Ball.prototype.randomSpeed = function (value,sx) {
+        sx = value > 0 ? ++sx : --sx ;
+        return sx;
+    }
+
+    // 调用改变圆的尺寸，颜色，运动方向的速度
+    Ball.prototype.changeBall = function () {
+        this.r = this.randomSize(20, 80);
+        this.color = "#" + this.randomColor(0, 256) + this.randomColor(0, 256) + this.randomColor(0, 256);
+        this.spendX = this.randomSpeed(Math.random()-0.5,this.spendX);
+        this.spendY = this.randomSpeed(Math.random()-0.5,this.spendY);
+    }
+    // 调用画圆的函数
+    Ball.prototype.draw = function () {
+        this.drawArc(this.x, this.y, this.r, this.color);
+    }
+
+    // 画圆的函数
+    Ball.prototype.drawArc = function (x, y, r, color) {
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.arc(
+            x,//X坐标
+            y,//Y坐标
+            r,//半径
+            0,//开始弧度
+            2 * Math.PI,//结束弧度
+            false
+        );
+        ctx.fillStyle = color || "#ccc";
+        ctx.closePath();
+        ctx.fill();
+    }
+    // 圆移动的方法
+    Ball.prototype.move = function () {
+        this.x += this.spendX;
+        this.y += this.spendY;
+        // 碰撞原理，如果小球碰壁了，那么相应的X或者Y方向的speed取反
+        if (this.y > canvas.height - this.r) {
+            this.y = canvas.height - this.r;
+            this.spendY = -this.spendY;
+        }
+        if (this.x > canvas.width - this.r) {
+            this.x = canvas.width - this.r;
+            this.spendX = -this.spendX;
+        }
+        if (this.x <= this.r) {
+            this.x = this.r;
+            this.spendX = -this.spendX;
+        }
+        if (this.y <= this.r) {
+            this.y = this.r;
+            this.spendY = -this.spendY;
+        }
+        this.draw();
+    }
+
+    // 所有圆的数组
+    var ballPoint = []
+    // 循环创建圆的实例
+    for (var i = 0; i < 6; i++) {
+        var ball = new Ball();
+        ball.init();
+        ball.draw();
+        ballPoint.push(ball);
+    }
+    // 设置一个随机刷新球的大小和颜色限定值
+    var num = 0, maxnum = 6000;
+    var timer = setInterval(function () {
+        num += 30;
+        // 先清除再画球，否则前一个球在绘制了之后，再调用接下来的那个球的move的函数时会把前一个球给清空
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (var i = 0; i < ballPoint.length; i++) {
+            if (num == maxnum) {
+                ballPoint[i].changeBall();
+            }
+            // .0 指定构造函数原型上的move函数
+            ballPoint[i].move();
+        }
+        // 判断如果num==maxnum就重置
+        num = num==maxnum ? 0 : num;
+        // if (num == maxnum) {
+        //     num = 0;
+        // }
+    }, 1000/60)
+</script>
+
+</html>
