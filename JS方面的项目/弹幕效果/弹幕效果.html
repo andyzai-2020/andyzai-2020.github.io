@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            /* 设置用户选中的样式为空 */
+            user-select: none;
+        }
+        .box{
+            margin: 30px auto;
+            width: 960px;
+            height: 592px;
+            box-shadow: 0 0 5px rgb(229,229,232);
+        }
+        .box .imgBox{
+            position: relative;
+            width: 960px;
+            height: 540px;
+            background: url("images/bg.jpg") no-repeat;
+            background-size: 100% 100%;
+            overflow: hidden;
+        }
+        .box .imgBox>span{
+            position: absolute;
+            color: red;
+            top: 0;
+            /* right: 0; */
+            /* transition: all 4s linear; */
+            /* 防止出现img换行现象 */
+            white-space: nowrap;
+        }
+        .box .imgBox video{
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .box .imgBox>span>img{
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+        }
+        .box .content{
+            position: relative;
+            width: 100%;
+            height: 52px;
+            padding: 10px 20px;
+            box-sizing: border-box;
+            background: #FFF; 
+        }
+        .box .content input{
+            float: left;
+            width: 849px;
+            height: 32px;
+            background: rgb(226,226,224);
+            border: none;
+            outline: none;
+            box-sizing: border-box;
+            padding-left: 15px;
+            color: #828387;
+        }
+        .box .content span{
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            display: block;
+            background: url("images/biaoqing.png") no-repeat;
+            background-size: 100% 100%;
+            top: 14px;
+            left: 835px;
+            cursor: pointer;
+        }
+        .box .content .btn{
+            float: left;
+            width: 70px;
+            height: 32px;
+            border: 1px solid rgb(32,138,185);
+            background: rgb(4,143,203);
+            color: #FFF;
+            cursor: pointer;
+            outline: none;
+        }
+        .box .content .gifBox{
+            display: none;
+            position: absolute;
+            top: -120px;
+            right: 0;
+            width: 360px;
+            height: 120px;
+            background: white;
+            font-size: 0;
+        }
+        .box .content .gifBox>img{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="imgBox">
+            <video src="video/林俊杰-裂缝中的阳光(蓝光).mp4" controls="controls"></video>
+        </div>
+        <div class="content">
+            <input type="text" placeholder="发个弹幕见证当下"/>
+            <span></span>
+            <button class="btn">发送</button>
+            <div class="gifBox">
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // 获取笑脸的span
+    var gifSpan = document.querySelector(".content>span");
+    var gifBox = document.querySelector(".gifBox");
+    var content = document.querySelector(".content");
+    var textValue = document.querySelector("input");
+    var btn =document.querySelector(".btn");
+    // 获取展示视频区域
+    var imgBox = document.querySelector(".imgBox");
+
+    // 定义一个gifNum数值来决定是否显示gif表情框
+    var gifNum = 0;
+    gifSpan.onclick = function(){
+        gifBox.style.display = (gifNum%2==0) ? "block" : "none" ;
+        gifNum++;
+    }
+
+
+    // 点击按钮输出文档内容
+    // 有出现重合的bug   <==
+    btn.onclick = function(){
+        if (textValue.value == '') {
+            alert("请输入内容");
+        }
+        else{
+            // 点击发送按钮隐藏gifBox
+            gifBox.style.display = "none";
+            // 生成标签span,并且给它设置样式与内容
+            var newSpan = document.createElement("span");
+            textValue.value = replace_em(textValue.value);
+            newSpan.innerHTML = textValue.value;
+            
+            // 设置随机的颜色
+            var randomColor = Math.floor(Math.random()*5);
+            switch (randomColor) {
+                case 0:
+                    newSpan.style.color = "red";
+                    break;
+                case 1:
+                    newSpan.style.color = "orange";    
+                    break;
+                case 2:
+                    newSpan.style.color = "green";
+                    break;
+                case 3:
+                    newSpan.style.color = "white";
+                    break;
+                case 4:
+                    newSpan.style.color = "yellow";
+                    break;
+            }
+
+            // 生成随机的top， 24是图片的高度
+            var spanY = Math.floor(Math.random()*(imgBox.offsetHeight-24+1));
+
+            // 限制span定位范围
+            // if( spanY>= imgBox.offsetHeight ){
+            //     spanY = imgBox.offsetHeight - 24;
+            // }
+            newSpan.style.top = spanY + "px";
+            newSpan.style.left = imgBox.offsetWidth + "px";
+
+            // 动画函数调用实现弹幕向左移动
+            animate(newSpan,-newSpan.offsetWidth,function () {
+                imgBox.removeChild(newSpan);
+            });
+            // 插入子元素span
+            imgBox.appendChild(newSpan);
+
+        }
+            // 输出后清除input框的内容
+            textValue.value = '';
+    }
+
+    // 弹幕动画函数
+    function animate(domElement,target,callback){
+        domElement.timer = window.setInterval(function(){
+            if (domElement.offsetLeft == target) {
+                window.clearInterval(domElement.timer);
+                domElement.timer = null;
+                // domElement.style.display = "none";
+                callback && callback();
+            }
+            domElement.style.left = domElement.offsetLeft - 3 +"px";
+        },15);
+    }
+
+
+
+
+
+    // 键盘按下生成弹幕
+    textValue.onkeyup = function(event){
+        var event =event || window.event;
+        if (event.keyCode == "13") {
+            btn.click();
+        }
+    }
+
+    // 遍历生成75个gif,并且点击某个图片就能够显示某个图片的[em_xx]在input的value值内
+    for (var i = 1; i <= 75; i++) {
+        var imgs = document.createElement("img");
+        imgs.src = "images/"+ i +".gif";
+            imgs.onclick = function(e){
+                // console.log(e.target);
+                // 替换img的路径，实现[em_xx]
+                var gif_arr = e.target.src.split("/");
+                gif_arr = gif_arr[gif_arr.length-1].split(".")[0];
+                gif_arr = "[em_"+gif_arr+"]";
+                // console.log("[em_"+a+"]");
+                // 插入input的value里
+                textValue.value += gif_arr;
+            }
+        gifBox.appendChild(imgs);
+    }
+
+
+
+    // 正则表达式
+    // 处理被点击的gif
+    function replace_em(str) {
+        str = str.replace(/\[em_([0-9]*)\]/g,'<img src="images/$1.gif"/>');
+        return str;
+    }
+</script>
+</html>

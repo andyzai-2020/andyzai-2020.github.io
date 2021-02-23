@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        img{
+            vertical-align: bottom;
+        }
+        .box{
+            width: 1180px;
+            margin:50px auto;
+            position: relative;
+        }
+        .box .item{
+            width: 220px;
+            border:1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .box .item .bigImg{
+            width: 100%;
+        }
+        .box .item .bottom_box{
+            height: 80px;
+            padding:15px;
+        }
+        .box .item .bottom_box .user_box{
+            margin-top: 15px;
+        }
+        .box .item .bottom_box .user_box .left{
+            float: left;
+        }
+        .box .item .bottom_box .user_box .right{
+            float: right;
+        }
+        .box .item .bottom_box .user_box .user_img{
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        .box .item .bottom_box .user_box .username{
+            font-size:12px;
+            color:#555555;
+        }
+        .box .item .bottom_box .user_box .heart{
+            height: 16px;
+            vertical-align: middle;
+        }
+        .box .item .bottom_box .user_box .num{
+            font-size:12px;
+            color:#555555;
+        }
+
+        .box .item::after{
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,2,4,.2);
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 8px;
+            content: "";
+            cursor: pointer;
+            display: none;
+        }
+        .box .item:hover::after{
+            display:block;
+        }
+        .more{
+            color:#ff2741;
+            text-align: center;
+            height: 100px;
+            line-height: 100px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="item">
+            <img src="images/pic/01.jpg" class="bigImg"/>
+
+            <div class="bottom_box">
+                <p>拥有一台宾利GT，如何拍，才不会被说炫富？</p>
+
+                <div class="user_box">
+                    <div class="left">
+                        <img src="images/touxiang/01.jpg" class="user_img"/>
+                        <span class="username">金英焕</span>
+                    </div>
+
+                    <div class="right">
+                        <img src="images/heart.png" class="heart"/>
+                        <span class="num">101</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="item">
+            <img src="images/pic/02.jpg" class="bigImg"/>
+
+            <div class="bottom_box">
+                <p>🛁清凉一夏，宝宝用的这些东西你🉐知道…</p>
+
+                <div class="user_box">
+                    <div class="left">
+                        <img src="images/touxiang/02.jpg" class="user_img"/>
+                        <span class="username">我是牛油果呀呀</span>
+                    </div>
+
+                    <div class="right">
+                        <img src="images/heart.png" class="heart"/>
+                        <span class="num">112</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="item">
+            <img src="images/pic/03.jpg" class="bigImg"/>
+
+            <div class="bottom_box">
+                <p>这些超火的动漫台词你绝对都有听过</p>
+
+                <div class="user_box">
+                    <div class="left">
+                        <img src="images/touxiang/03.jpg" class="user_img"/>
+                        <span class="username">学说日语</span>
+                    </div>
+
+                    <div class="right">
+                        <img src="images/heart.png" class="heart"/>
+                        <span class="num">305</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="item">
+            <img src="images/pic/04.jpg" class="bigImg"/>
+
+            <div class="bottom_box">
+                <p>高段位的科学育儿理念！原来是它～</p>
+
+                <div class="user_box">
+                    <div class="left">
+                        <img src="images/touxiang/04.jpg" class="user_img"/>
+                        <span class="username">小迷姐儿是豆豆龙</span>
+                    </div>
+
+                    <div class="right">
+                        <img src="images/heart.png" class="heart"/>
+                        <span class="num">101</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="item">
+            <img src="images/pic/05.jpg" class="bigImg"/>
+
+            <div class="bottom_box">
+                <p>没想到因为婴儿推车，我居然被孩子爸夸了…</p>
+
+                <div class="user_box">
+                    <div class="left">
+                        <img src="images/touxiang/05.jpg" class="user_img"/>
+                        <span class="username">我是牛油果呀呀</span>
+                    </div>
+
+                    <div class="right">
+                        <img src="images/heart.png" class="heart"/>
+                        <span class="num">164</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="item">
+            <img src="images/pic/06.jpg" class="bigImg"/>
+
+            <div class="bottom_box">
+                <p>日常vlog｜妈妈、博主，每天身份转换</p>
+
+                <div class="user_box">
+                    <div class="left">
+                        <img src="images/touxiang/06.jpg" class="user_img"/>
+                        <span class="username">木夕_木</span>
+                    </div>
+
+                    <div class="right">
+                        <img src="images/heart.png" class="heart"/>
+                        <span class="num">976</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="item">
+            <img src="images/pic/07.jpg" class="bigImg"/>
+
+            <div class="bottom_box">
+                <p>这个食谱摆摊能不能赚到学费大家帮忙参考一下😂</p>
+
+                <div class="user_box">
+                    <div class="left">
+                        <img src="images/touxiang/07.jpg" class="user_img"/>
+                        <span class="username">彭雨荷baby</span>
+                    </div>
+
+                    <div class="right">
+                        <img src="images/heart.png" class="heart"/>
+                        <span class="num">1373</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="item">
+            <img src="images/pic/08.jpg" class="bigImg"/>
+
+            <div class="bottom_box">
+                <p>和油污蟑螂say byebye｜厨房清洁好物分享</p>
+
+                <div class="user_box">
+                    <div class="left">
+                        <img src="images/touxiang/08.jpg" class="user_img"/>
+                        <span class="username">Cikoe</span>
+                    </div>
+
+                    <div class="right">
+                        <img src="images/heart.png" class="heart"/>
+                        <span class="num">60</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="item">
+            <img src="images/pic/09.jpg" class="bigImg"/>
+
+            <div class="bottom_box">
+                <p>和油污蟑螂say 上街超惹眼宏光MINI EV，市区代步车性价高</p>
+
+                <div class="user_box">
+                    <div class="left">
+                        <img src="images/touxiang/09.jpg" class="user_img"/>
+                        <span class="username">一颗小甜欣</span>
+                    </div>
+
+                    <div class="right">
+                        <img src="images/heart.png" class="heart"/>
+                        <span class="num">80</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="item">
+            <img src="images/pic/10.jpg" class="bigImg"/>
+            <div class="bottom_box">
+                <p>📢快开学了！！！再不准备就晚了✅</p>
+
+                <div class="user_box">
+                    <div class="left">
+                        <img src="images/touxiang/10.jpg" class="user_img"/>
+                        <span class="username">我叫小豆浆</span>
+                    </div>
+
+                    <div class="right">
+                        <img src="images/heart.png" class="heart"/>
+                        <span class="num">261</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="more">查看更多</div>
+
+    <script src="js/jquery.min.js"></script>
+    <script>
+        // 得到最大列数
+        var column = Math.floor( $(".box").width()/$(".item").outerWidth() );
+
+        // 定义一个变量,保存每个.item之间的间隔
+        var gap = 18;
+
+        // 定义一个数组,保存每列的总高度
+        var arrHeight = [];
+
+        // 遍历每个.item对象
+        $(".item").each(function(index, domElement ){
+            // 瀑布流实现第一列排列
+            // 第一列图片的top值都是0
+            // 第一列第1个图片的left值是0
+            // 第一列第2个图片的left值是 (图片盒子宽度+间隔)*1
+            // 第一列第3个图片的left值是 (图片盒子宽度+间隔)*2
+            // 第一列第4个图片的left值是 (图片盒子宽度+间隔)*3
+            // 第一列第5个图片的left值是 (图片盒子宽度+间隔)*4
+            if( index < column ){// 第一列
+                $(domElement).css({
+                    top: 0,
+                    left: ( $(domElement).outerWidth()+gap ) * index
+                })
+
+                // 保存第一行图片盒子的高度到数组
+                arrHeight.push( $(domElement).outerHeight() )
+
+            }else{
+                // 除第一行之外的其他列
+                // 找出高度数组中,最小列的高度值
+                var minHeight =  Math.min.apply(null , arrHeight ) ;
+
+                // 最小列高度值对应的索引号
+                // jQuery.inArray(value,array)
+                // 确定第一个参数在数组中的位置，从0开始计数(如果没有找到则返回 -1 )。
+                var minIndex = $.inArray( minHeight , arrHeight );
+
+                // 设置偏移量
+                $(domElement).css({
+                    top: minHeight + gap,
+                    left: ( $(domElement).outerWidth()+gap ) * minIndex
+                })
+
+                // 更新对应列的高度值  这步很关键
+                arrHeight[minIndex] = minHeight + gap + $(domElement).outerHeight()
+            }
+            
+        })
+        
+        // 给瀑布流父容器设置最大列高度
+        var maxHeight =  Math.max.apply(null , arrHeight ) ;
+        $(".box").height( maxHeight );
+
+
+        var newData = [
+            {
+                "img_num" : 11,
+                "img_desc" : "莆田探店｜时雾美术馆",
+                "username" : "iamlittley",
+                "num": 43
+            },{
+                "img_num" : 12,
+                "img_desc" : "参加活动遇到喜欢博主 瞬间变成小迷妹",
+                "username" : "Chili徐辣儿",
+                "num": 112
+            },{
+                "img_num" : 13,
+                "img_desc" : "学习干货📖各科笔记记什么，不看后悔✓",
+                "username" : "贺叫兽",
+                "num": 1687
+            }
+        ]
+
+
+        // 点击查看更多,添加.item项
+        $(".more").click(function(){
+            $.each(newData,function (index,item) {
+                    // 创建新的.item
+                    var newItem = $("<div class='item'></div>");
+                    // 设置新的.item内容  es6中模板字符串``   模板是允许换行   在``里面可以使用 ${变量名} 解析变量 
+                    newItem.html(`<img src="images/pic/${item["img_num"]}.jpg" class="bigImg"/>
+                    <div class="bottom_box">
+                        <p>${item["img_desc"]}</p>
+
+                        <div class="user_box">
+                            <div class="left">
+                                <img src="images/touxiang/${item["img_num"]}.jpg" class="user_img"/>
+                                <span class="username">${item["username"]}</span>
+                            </div>
+
+                            <div class="right">
+                                <img src="images/heart.png" class="heart"/>
+                                <span class="num">${item["num"]}</span>
+                            </div>
+                        </div>
+                    </div>`);
+
+                    // 把新的.item追加打.box中
+                    $(".box").append( newItem );
+                    newItem.hide();
+
+
+                    // 因为图片加载需要时间,所以放在延时器中执行部分代码,这样才能保证图片宽度高度能正确获取到
+                    setTimeout(function(){
+                        console.log( newItem.outerHeight() );
+                        // 找出高度数组中,最小列的高度值
+                        var minHeight =  Math.min.apply(null , arrHeight ) ;
+
+                        // 最小列高度值对应的索引号
+                        var minIndex = $.inArray( minHeight , arrHeight );
+
+                        // 设置偏移量
+                        newItem.css({
+                            top: minHeight + gap,
+                            left: ( newItem.outerWidth()+gap ) * minIndex
+                        })
+
+                        // 更新对应列的高度值  这步很关键
+                        arrHeight[minIndex] = minHeight + gap + newItem.outerHeight();
+
+
+                        // 给瀑布流父容器设置最大列高度
+                        var maxHeight =  Math.max.apply(null , arrHeight ) ;
+                        $(".box").height( maxHeight );
+                        newItem.fadeIn(1000);
+                    },100 )
+            })
+            
+
+        })
+    </script>
+</body>
+</html>

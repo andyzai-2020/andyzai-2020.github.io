@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        img{
+            /* 去掉图片底部缝隙,设置vertical-align取值默认的baseline基线对齐即可 */
+            vertical-align: bottom;
+        }
+        li{
+            list-style:none;
+        }
+        body{
+            background: #262626;
+        }
+        .banner{
+            width: 1200px;
+            height: 500px;
+            margin:100px auto;
+            border:1px solid white;
+            position: relative;
+        }
+        .banner .bannerImgs ul li{
+            position: absolute;
+            /* left和right一般情况下,同时设置,只有left有效 */
+            /* top和bottom一般情况下,同时设置,只有top有效 */
+            left: 200px;
+            top: 0px;
+        }
+       
+        .banner .bannerImgs ul li img{
+            /* 如果图片标签只设置宽度高度其中一个,另一个会等比例缩放 */
+            width: 100%;
+        }
+        .banner .arrow_box{
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            z-index:5;
+            display: none;
+        }
+        .banner .arrow_box .arrow_left{
+            width: 76px;
+            height: 112px;
+            float: left;
+            cursor: pointer;
+        }
+        .banner .arrow_box .arrow_right{
+            width: 76px;
+            height: 112px;
+            float: right;
+            cursor: pointer;
+        }
+        .banner .circle{
+            position: absolute;
+            left: 50%;
+            bottom: -60px;
+            height: 14px;
+            z-index:5;
+            width: 110px;
+            margin-left: -55px;
+        }
+        .banner .circle li{
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: white;
+            float: left;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .banner .circle li.current{
+            background: #e1251b;
+        }
+        .banner .circle li:last-child{
+            margin-right: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <!-- 第一部分:轮播图片层 -->
+        <div class="bannerImgs">
+            <ul>
+                <li class="one"><a href="#"><img src="images/banner_img01.png"/></a></li>
+                <li class="two"><a href="#"><img src="images/banner_img02.png"/></a></li>
+                <li class="three"><a href="#"><img src="images/banner_img03.png"/></a></li>
+                <li class="four"><a href="#"><img src="images/banner_img04.png"/></a></li>
+                <li class="five"><a href="#"><img src="images/banner_img05.png"/></a></li>
+            </ul>
+        </div>
+
+        <!-- 第二部分:左右箭头 -->
+        <div class="arrow_box">
+            <div class="arrow_left">
+                <img src="images/arrow_left.png"/>
+            </div>
+            <div class="arrow_right">
+                <img src="images/arrow_right.png"/>
+            </div>
+        </div>
+
+        <!-- 第三部分:小圆点 指示器 -->
+        <ol class="circle">
+            <li></li>
+            <li></li>
+            <li class="current"></li>
+            <li></li>
+            <li></li>
+        </ol>
+    </div>
+
+    <script src="./js/jquery.min.js"></script>
+    <script>
+        // 1. 动画显示每个li的位置,宽度,透明度等等
+        // 定义一个数组保存每个li的位置,宽度,透明度数据,这个数组称之为配置项
+        var config = [
+            {
+                "width":400,
+                "top":20,
+                "left":50,
+                "zIndex":2,
+                "opacity":0.2
+            },
+            {
+                "width":600,
+                "top":70,
+                "left":0,
+                "zIndex":3,
+                "opacity":0.8
+            },
+            {
+                "width":800,
+                "top":100,
+                "left":200,
+                "zIndex":4,
+                "opacity":1
+            },
+            {
+                "width":600,
+                "top":70,
+                "left":600,
+                "zIndex":3,
+                "opacity":0.8
+            },
+            {
+                "width":400,
+                "top":20,
+                "left":750,
+                "zIndex":2,
+                "opacity":0.2
+            }
+        ];
+        
+        // init初始化方法,根据配置数据,动画渲染设置li相关CSS属性
+        function init( myData ){
+            // 遍历每个配置数据,给每个li使用动画设置属性
+            $.each( myData, function(index, item ){
+                $(".bannerImgs ul li").eq( index ).stop().animate( item );
+            })
+        }
+        init( config );
+
+
+        // 2.鼠标移上.banner层以后,显示左右箭头;鼠标移出.banner层以后,隐藏左右箭头
+        $(".banner").hover(function(){
+            $(".arrow_box").stop().fadeIn();
+        },function(){
+            $(".arrow_box").stop().fadeOut();
+        })
+
+        var circleIndex = 2 ;
+
+        // 3. 给右按钮添加点击事件
+        $(".arrow_right").click(function(){
+            // 核心原理,每个把配置数据中的第一个数组元素删除,再把这个第一个添加到数组的最后面
+            // 数组的 push pop shift从数组头部删除元素 unshift
+            config.push( config.shift() );
+            
+            // 重新渲染
+            init( config );
+
+            // 自加1
+            circleIndex++;
+            // 判断边界
+            if( circleIndex == $(".circle li").length ){
+                circleIndex = 0
+            }
+            // 高亮小圆点
+            $(".circle li").eq( circleIndex ).addClass("current").siblings("li").removeClass("current");
+        })
+        
+        // 3. 给左按钮添加点击事件
+        $(".arrow_left").click(function(){
+            // 核心原理,每个把配置数据中的最后一个数组元素删除,再把这个第一个添加到数组的最前面
+            config.unshift( config.pop() );
+            
+            // 重新渲染
+            init( config );
+
+            // 自减1
+            circleIndex--;
+            // 判断边界
+            if( circleIndex == -1 ){
+                circleIndex = $(".circle li").length -1;
+            }
+            // 高亮小圆点
+            $(".circle li").eq( circleIndex ).addClass("current").siblings("li").removeClass("current");
+
+        })
+
+        // // 轮播
+        // var timer = null ;
+        // timer = setInterval(function () {
+        //     config.unshift( config.pop() );
+        //     init( config );
+
+        //     // 自加1
+        //     circleIndex++;
+        //     // 判断边界
+        //     if( circleIndex >= $(".circle li").length ){
+        //         circleIndex = 0
+        //     }
+        //     // 高亮小圆点
+        //     $(".circle li").eq( circleIndex ).addClass("current").siblings("li").removeClass("current");
+        // },2000)
+
+        // $(".banner").hover(function () {
+        //     clearInterval(timer);
+        // },function () {
+        //     timer = setInterval(function () {
+        //         config.unshift( config.pop() );
+        //         init( config );
+        //     },2000)
+        // })
+
+        // 点击小圆点去到指定的图片
+        $(".circle li").click(function(){
+            console.log("点击", $(this).index() );
+            console.log("current", $(".circle li.current").index() );
+            var v = $(this).index() - $(".circle li.current").index();
+            if ( v < 0) {
+                v = Math.abs(v)
+                // 负数向右轮播
+                for (let i = 0; i < v; i++) {
+                    $(".arrow_left").click();
+                }
+            }else if(v > 0){
+                // 正数向左轮播
+                for (let i = 0; i < v; i++) {
+                    $(".arrow_right").click();
+                }
+            }
+        })
+    </script>
+</body>
+</html>

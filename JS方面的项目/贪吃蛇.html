@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        .box{
+            position: relative;
+            width: 800px;
+            height: 600px;
+            background: #000;
+            margin: 20px 0 0 10px;
+            overflow: hidden;
+        }
+        .score{
+            margin-top: 10px;
+            margin-left: 10px;
+            padding-left: 10px;
+            width: 100px;
+            height: 30px;
+            border: 2px solid rgb(104, 104, 238);
+            border-radius:10px;
+            box-sizing: border-box;
+        }
+        .food{
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius:50%;
+            box-shadow: 0 0 15px 5px white;
+        }
+    </style>
+</head>
+<body>
+</body>
+<script>
+   // 创建一个积分对象
+    function Score(){
+        this.score = 0;
+        this._score = null;
+        this.className = "score";
+    }
+
+    Score.prototype.scoreBuild = function(){
+        // 创建一个input
+        this._score = document.createElement("input");
+        this._score.className = this.className;
+        this._score.disabled ="disabled";
+        this._score.value =this.score;
+        document.body.appendChild(this._score);
+    }
+    Score.prototype.addScore = function(){
+        this.score++;
+        // console.log(this.score);
+        this._score.value =this.score;
+    }
+
+    // 创建一个地图对象
+    function Map(){
+        // 地图对象有宽度、高度、定位属性、外边距
+        this.className = "box";
+        this._map = null;
+    }
+    Map.prototype.mapBuild = function(){
+        this._map = document.createElement("div");
+        this._map.className =this.className; 
+        document.body.appendChild(this._map);
+    };
+ 
+    // 创建食物对象
+    function Food() {
+        // 食物对象有宽度、高度、背景、绝对定位、随机的top与left属性
+        this.className = "food";
+        this.x = 0;
+        this.y = 0;
+        this._food = null;
+    }
+    // 食物有创建食物的方法
+    Food.prototype.foodBuild = function () {
+        if (this._food == null) {
+            this._food = document.createElement("div");
+            this._food.className = this.className;
+            this._food.style.opacity = 0.8;
+            // 把食物添加进地图中
+            map._map.appendChild(this._food);
+        }
+            // 食物颜色
+            var red = Math.floor(Math.random()*256).toString(16);
+            var blue = Math.floor(Math.random()*256).toString(16);
+            var green = Math.floor(Math.random()*256).toString(16);
+            var snakeColor = "#"+red+blue+green;
+            // console.log(snakeColor);
+            this._food.style.background = snakeColor;
+            this.x = Math.floor(Math.random()*40); 
+            this.y = Math.floor(Math.random()*30); 
+            this._food.style.left = this.x * 20 +"px";
+            this._food.style.top = this.y * 20 +"px";
+    }
+
+    // 创建蛇对象
+    function Snake() {
+        // 蛇有宽度、高度、绝对定位与固定的起始位置、身体包括蛇头和蛇身
+        // 设置蛇身
+        this.body = [
+            // 第四个的值是z-index的值
+            [4,1,"yellow",null,2],
+            [3,1,"#3f51b5",null,1],
+            [2,1,"#3f51b5",null,1],
+            [1,1,"#3f51b5",null,1]
+            ];
+        this.pos = "absolute";
+        this.width = 20;
+        this.height = 20;
+        // 代表蛇运动的方向
+        this.fx = "right" ;
+        this.speed = 300;
+
+    }
+    // 蛇显示的方法
+    Snake.prototype.show = function(){
+        var _this = this;
+        this.body.forEach(function(item,index){
+            if ( item[3] == null ) {
+                item[3] = document.createElement("div");
+                map._map.appendChild(item[3]);
+            }
+            
+            if (item[4] == 2) {
+                item[3].style.background = 'url("huaji.png") no-repeat';
+                item[3].style.backgroundSize = '100% 100%';
+            }
+                item[3].style.zIndex = item[4];
+                item[3].style.position = _this.pos;
+                item[3].style.left = item[0] * _this.width + "px";  
+                item[3].style.top = item[1] * _this.height + "px";  
+                item[3].style.backgroundColor = item[2];
+                item[3].style.boxShadow =" 0 0 3px #fff";
+                item[3].style.borderRadius ="5px";
+                item[3].style.width = _this.width + "px";
+                item[3].style.height = _this.height + "px";
+        })
+    };
+    //蛇移动的方法
+    Snake.prototype.move = function(){
+        // 蛇节的变动
+        for (var sj = this.body.length-1; sj >=1; sj--) {
+            // console.log(this.body[sj][0]);
+            // console.log(this.body[sj][1]);
+            this.body[sj][0] = this.body[sj-1][0];
+            this.body[sj][1] = this.body[sj-1][1];
+        }
+        // 蛇头的变动
+        if (this.fx == "left") {
+            this.body[0][0]--;
+        }
+        if (this.fx == "right") {
+            this.body[0][0]++;
+        }
+        if (this.fx == "up") {
+            this.body[0][1]--;
+        }
+        if (this.fx == "down") {
+            this.body[0][1]++;
+        }
+      
+ 
+
+        // 重新渲染蛇的位置
+        this.show();
+        // 蛇吃食物
+        this.eat();
+        // 蛇碰到自己
+        this.suicide();
+        //蛇接触游戏边界的判定
+        this.touchSide();
+    }
+
+    
+
+    // 获取键盘按下，修改蛇的方向
+    document.onkeydown = function (e){
+        var e = e || window.event;
+        switch(e.key){
+            case "w":
+                if(snake.fx != "down"){
+                    snake.fx = "up" ;
+                }
+            break;
+            case "a":
+                if(snake.fx != "right"){
+                    snake.fx = "left" ;
+                }
+            break;
+            case "s":
+                if(snake.fx != "up"){
+                    snake.fx = "down" ;
+                }
+            break;
+            case "d":
+                if(snake.fx != "left"){
+                    snake.fx = "right" ;
+                }
+            break;
+        }
+    }
+    // 蛇吃食物 , 并且每吃到一个食物就会增加一个积分
+    Snake.prototype.eat = function(){
+        // console.log(food.x);
+        // console.log(food.y);
+        // 如果食物被吃掉就重新渲染食物
+        if (this.body[0][0] == food.x && this.body[0][1] == food.y) {
+            // console.log("食物被吃掉了");
+            food.foodBuild();
+            // 蛇吃了食物就增加一节蛇身
+            // 蛇身随机增加不同颜色的身体
+            var red = Math.floor(Math.random()*256).toString(16);
+            var blue = Math.floor(Math.random()*256).toString(16);
+            var green = Math.floor(Math.random()*256).toString(16);
+            var snakeColor = "#"+red+blue+green;
+            // console.log(snakeColor);
+            snake.body.push([0,0,snakeColor,null,1]);
+
+            // 增加积分
+            scoreBox.addScore();
+
+            // 如果分数 / 5 == 0就进入这里
+            if(scoreBox.score % 5 ==0){
+                // 每吃到5个食物，speed减20，就是每一次遍历的时间减去40毫秒
+                this.speed -= 40;
+                if (this.speed<=20) {
+                    this.speed = 20;
+                }
+            }
+            this.changeSpeed();
+
+
+        }
+    }
+    // 蛇速度
+    Snake.prototype.changeSpeed = function(){
+        clearInterval(timer);
+        timer = null;
+        if (timer == null) {
+            console.log(this.speed);
+            timer = setInterval(function(){
+                snake.move();
+            },this.speed)
+        }
+
+    }
+
+
+
+    // 蛇碰到自己
+    Snake.prototype.suicide = function (){
+        // 蛇身有五节之后才会进入判断
+        if (this.body.length > 4) {
+            for (var j = 4; j < this.body.length; j++) {
+                // 如果蛇能够碰到自己第四节及之后的蛇身就结束游戏
+                if(this.body[0][0] == this.body[j][0] 
+                && this.body[0][1] == this.body[j][1])
+                {
+                    // console.log("我碰到我自己");
+                    alert("Game Over");
+                    // 死了就清除定时器
+                    clearInterval(timer);
+                }
+            }
+        }
+    }
+    // 蛇接触到边界的判定(但是不会因为接触到边界就死亡，会从另一端出现)
+    Snake.prototype.touchSide = function(){
+        // 判定蛇头是否超出了边界则为判定蛇是否出了边界
+        // 上边界
+        if(this.body[0][1] < 0){
+            this.body[0][1] = 29;
+        }
+        // 右边界
+        if(this.body[0][0] >= 40){
+            this.body[0][0] = 0;
+        }
+        // 下边界
+        if(this.body[0][1] >= 30){
+            this.body[0][1] = 0;
+        }
+        // 左边界
+        if(this.body[1][0] < 0){
+            this.body[0][0] = 39;
+        }
+    }
+
+
+    var scoreBox = new Score();
+    scoreBox.scoreBuild();
+
+    var map = new Map();
+    map.mapBuild();
+   
+    var food = new Food();
+    food.foodBuild();
+
+
+    var snake = new Snake();
+    snake.show();
+    var timer =null;
+    timer = setInterval(function(){
+        snake.move();
+    },200);
+</script>
+</html>
